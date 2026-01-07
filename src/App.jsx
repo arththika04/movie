@@ -1,35 +1,55 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useReducer, useCallback, useContext } from "react";
+import { ThemeProvider, ThemeContext } from "./context/ThemeContext";
+import { moviesReducer, moviesInitialState } from "./reducers/moviesReducer";
+import MovieForm from "./components/MovieForm";
+import MovieList from "./components/MovieList";
+import Stats from "./components/Stats";
+import Header from "./components/Header";
 
-function App() {
-  const [count, setCount] = useState(0)
+function AppInner() {
+  const [movies, dispatch] = useReducer(moviesReducer, moviesInitialState);
+  const { theme } = useContext(ThemeContext);
+
+  const handleAdd = useCallback(
+    (title) => dispatch({ type: "ADD", title }),
+    []
+  );
+
+  const handleToggle = useCallback(
+    (id) => dispatch({ type: "TOGGLE_WATCHED", id }),
+    []
+  );
+
+  const handleRemove = useCallback(
+    (id) => dispatch({ type: "REMOVE", id }),
+    []
+  );
+
+  const rootClass =
+    theme === "dark"
+      ? "min-h-screen bg-slate-900 text-slate-100"
+      : "min-h-screen bg-slate-100 text-slate-900";
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className={rootClass}>
+      <div className="max-w-md mx-auto py-10 px-4">
+        <Header />
+        <MovieForm onAdd={handleAdd} />
+        <MovieList
+          movies={movies}
+          onToggle={handleToggle}
+          onRemove={handleRemove}
+        />
+        <Stats movies={movies} />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </div>
+  );
 }
 
-export default App
+export default function App() {
+  return (
+    <ThemeProvider>
+      <AppInner />
+    </ThemeProvider>
+  );
+}
