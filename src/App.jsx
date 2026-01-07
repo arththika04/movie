@@ -30,9 +30,13 @@ function AppInner() {
       ? "min-h-screen bg-slate-900 text-slate-100"
       : "min-h-screen bg-slate-100 text-slate-900";
 
-  return (
-    <div className={rootClass}>
-      <div className="max-w-md mx-auto py-10 px-4">
+
+return (
+  <div className={rootClass}>
+    
+    <div className="min-h-screen flex items-center justify-center">
+
+      <div className="w-full max-w-xl mx-auto rounded-xl shadow-lg bg-slate-100 px-6 py-6">
         <Header />
         <MovieForm onAdd={handleAdd} />
         <MovieList
@@ -43,7 +47,9 @@ function AppInner() {
         <Stats movies={movies} />
       </div>
     </div>
-  );
+  </div>
+);
+
 }
 
 export default function App() {
