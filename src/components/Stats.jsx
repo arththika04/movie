@@ -8,9 +8,10 @@ export default function Stats({ movies }) {
   }, [movies]);
 
   return (
-    <p className="mt-4 text-sm">
-      Total movies: <span className="font-semibold">{total}</span> | Watched:{" "}
-      <span className="font-semibold">{watched}</span>
-    </p>
-  );
+    
+  <p className="mt-4 text-sm text-center text-slate-700">
+    Total Movies: <span className="font-semibold">{total}</span> | Watched Movies:{" "}
+    <span className="font-semibold">{watched}</span>
+  </p>
+);
 }
